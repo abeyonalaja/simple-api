@@ -33,7 +33,7 @@ defmodule SimpleApi.AuthTest do
       assert {:ok, %User{} = user} = Auth.create_user(@valid_attrs)
       assert user.email == "some email"
       assert user.is_active == true
-      assert user.password == "some password"
+      assert Bcrypt.verify_pass("some password", user.password)
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -46,7 +46,7 @@ defmodule SimpleApi.AuthTest do
       assert %User{} = user
       assert user.email == "some updated email"
       assert user.is_active == false
-      assert user.password == "some updated password"
+      assert Bcrypt.verify_pass("some updated password", user.password)
     end
 
     test "update_user/2 with invalid data returns error changeset" do
