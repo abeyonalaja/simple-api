@@ -7,5 +7,6 @@ defmodule SimpleApiWeb.Router do
 
   scope "/api", SimpleApiWeb do
     pipe_through :api
+    resources "/users", UserController, except: [:new, :edit]
   end
 end
