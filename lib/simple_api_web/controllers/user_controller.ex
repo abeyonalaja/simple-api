@@ -39,4 +39,19 @@ defmodule SimpleApiWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def sign_in(conn, %{"email" => email, "password" => password }) do
+    case Auth.authenticate_user(email, password) do
+      { :ok, user } ->
+        conn
+        |> put_status(:ok)
+        |>render(SimpleApiWeb.UserView, "sign_in.json", user: user)
+
+      { :error, message } ->
+        conn
+        |> put_status(:unauthorized)
+        |> render(SimpleApiWeb.ErrorView, "401.json", message: message)
+    end
+  end
+
 end
