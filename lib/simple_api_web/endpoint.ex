@@ -36,6 +36,11 @@ defmodule SimpleApiWeb.Endpoint do
     key: "_simple_api_key",
     signing_salt: "70uIidxT"
 
+  plug Corsica, origins: "http://localhost:8080",
+    log: [rejected: :error, invalid: :warn, accepted: :debug],
+    allow_headers: ["content-type"],
+    allow_credentials: true
+ 
   plug SimpleApiWeb.Router
 
   @doc """
